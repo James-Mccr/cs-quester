@@ -6,13 +6,15 @@ namespace Quester.QuestSerialisers
 {
     public class JsonQuestSerialiser : IQuestSerialiser
     {
-        public Formatting Format { get; }
+        public JsonSerializerSettings Settings { get; }
 
-        public JsonQuestSerialiser(Formatting format = Formatting.None)
+        public JsonQuestSerialiser(JsonSerializerSettings settings)
         {
-            Format = format;
+            Settings = settings;
         }
 
-        public string Serialise(IEnumerable<Quest> quests) => JsonConvert.SerializeObject(quests, Format);
+        public string Serialise(IEnumerable<Quest> quests) => JsonConvert.SerializeObject(quests, Settings);
+
+        public IEnumerable<Quest> Deserialise(string s) => JsonConvert.DeserializeObject<IEnumerable<Quest>>(s, Settings);
     }
 }
