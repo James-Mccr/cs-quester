@@ -1,0 +1,15 @@
+# Object files
+*.o
+
+# Shared files
+*.dll
+
+# Debug files
+*.pdb
+
+# Executables
+*.exe
+
+obj/
+bin/
+
