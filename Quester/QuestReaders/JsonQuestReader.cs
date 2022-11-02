@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Quester.Models;
@@ -12,8 +13,8 @@ namespace Quester.QuestReaders
 
         public JsonQuestReader(IQuestSerialiser serialiser, TextReader textReader)
         {
-            Serialiser = serialiser;
-            TextReader = textReader;
+            Serialiser = serialiser ?? throw new ArgumentNullException(nameof(Serialiser));
+            TextReader = textReader ?? throw new ArgumentNullException(nameof(TextReader));
         }
 
         public IEnumerable<Quest> Read()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Moq;
@@ -11,7 +12,7 @@ namespace Quester.UnitTests
     public class TestJsonQuestReader
     {
         [Fact]
-        public void CreateJsonQuestReader()
+        public void JsonQuestReaderCreate()
         {
             var mockSerialiser = new Mock<IQuestSerialiser>();
             var mockTextReader = new Mock<TextReader>();
@@ -21,7 +22,7 @@ namespace Quester.UnitTests
         }
 
         [Fact]
-        public void ReadJsonQuestReader()
+        public void JsonQuestReaderRead()
         {
             var mockSerialiser = new Mock<IQuestSerialiser>();
             mockSerialiser.Setup(m => m.Deserialise(It.IsAny<string>())).Returns(It.IsAny<IEnumerable<Quest>>());
@@ -33,6 +34,19 @@ namespace Quester.UnitTests
 
             mockSerialiser.Verify(m => m.Deserialise(It.IsAny<string>()), Times.Once);
             mockTextReader.Verify(m => m.ReadToEnd(), Times.Once);
+        }
+
+        [Theory]
+        [MemberData(nameof(JsonQuestReaderNullConstructorData))]
+        public void JsonQuestReaderNullThrowsException(IQuestSerialiser serialiser, TextReader reader, string paramName)
+        {
+            Assert.Throws<ArgumentNullException>(paramName, () => new JsonQuestReader(serialiser, reader));
+        }
+
+        public static IEnumerable<object[]> JsonQuestReaderNullConstructorData()
+        {
+            yield return new object[] { null, new Mock<TextReader>().Object, nameof(JsonQuestReader.Serialiser) };
+            yield return new object[] { new Mock<IQuestSerialiser>().Object, null, nameof(JsonQuestReader.TextReader) };
         }
     }
 }

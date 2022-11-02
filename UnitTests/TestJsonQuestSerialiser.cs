@@ -11,23 +11,24 @@ namespace Quester.UnitTests
     public class TestJsonQuestSerialiser
     {
         [Theory]
-        [MemberData(nameof(CreateJsonQuestSerialiserData))]
-        public void CreateJsonQuestSerialiser(JsonSerializerSettings settings)
+        [MemberData(nameof(JsonQuestSerialiserCreateData))]
+        public void JsonQuestSerialiserCreate(JsonSerializerSettings settings)
         {
             
             var serialiser = new JsonQuestSerialiser(settings);
             Assert.Equal(settings, serialiser.Settings);
         }
 
-        public static IEnumerable<object[]> CreateJsonQuestSerialiserData()
+        public static IEnumerable<object[]> JsonQuestSerialiserCreateData()
         {
+            yield return new object[] { null };
             yield return new object[] { new JsonSerializerSettings() };
             yield return new object[] { new JsonSerializerSettings { Formatting = Formatting.Indented } };
         }
 
         [Theory]
         [MemberData(nameof(JsonQuestSerialiserTestData))]
-        public void SerialiseJsonQuestSerialiser(IEnumerable<Quest> quests, string expectedJson)
+        public void JsonQuestSerialiserSerialise(IEnumerable<Quest> quests, string expectedJson)
         {
             var settings = new JsonSerializerSettings();
             var serialiser = new JsonQuestSerialiser(settings);
@@ -37,7 +38,7 @@ namespace Quester.UnitTests
 
         [Theory]
         [MemberData(nameof(JsonQuestSerialiserTestData))]
-        public void DeserialiseJsonQuestSerialiser(IEnumerable<Quest> expectedQuests, string json)
+        public void JsonQuestSerialiserDeserialise(IEnumerable<Quest> expectedQuests, string json)
         {
             var settings = new JsonSerializerSettings();
             var serialiser = new JsonQuestSerialiser(settings);

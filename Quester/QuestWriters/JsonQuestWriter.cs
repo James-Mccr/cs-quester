@@ -11,10 +11,10 @@ namespace Quester.QuestWriters
         public IQuestSerialiser Serialiser { get; }
         public TextWriter TextWriter { get; }
 
-        public JsonQuestWriter(IQuestSerialiser serialiser, TextWriter writer)
+        public JsonQuestWriter(IQuestSerialiser serialiser, TextWriter textWriter)
         {
-            Serialiser = serialiser ?? throw new ArgumentNullException(nameof(serialiser));
-            TextWriter = writer ?? throw new ArgumentNullException(nameof(writer));
+            Serialiser = serialiser ?? throw new ArgumentNullException(nameof(Serialiser));
+            TextWriter = textWriter ?? throw new ArgumentNullException(nameof(TextWriter));
         }
 
         public void Write(IEnumerable<Quest> quests)
