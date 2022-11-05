@@ -51,18 +51,20 @@ namespace Quester.UnitTests
             yield return new object[] { new Quest[0], "[]" };
             yield return new object[] 
             { 
-                new Quest[] { new Quest(0, 0, string.Empty, null, null) }, 
-                @"[{""Id"":0,""Reward"":0,""Goal"":"""",""DateCreated"":null,""DateCompleted"":null}]" 
+                new Quest[] { new Quest(0, 0, string.Empty, false) }, 
+                @"[{""Id"":0,""Reward"":0,""Goal"":"""",""Complete"":false}]" 
             };
             yield return new object[]
             {
                 new Quest[]
                 {
-                    new Quest(0, 0, string.Empty, null, null),
-                    new Quest(1, 1, "goal", DateTime.MinValue, DateTime.MinValue)
+                    new Quest(0, 0, string.Empty, false),
+                    new Quest(1, 1, "goal", true)
                 },
-                @"[{""Id"":0,""Reward"":0,""Goal"":"""",""DateCreated"":null,""DateCompleted"":null},{""Id"":1,""Reward"":1,""Goal"":""goal"",""DateCreated"":""0001-01-01T00:00:00"",""DateCompleted"":""0001-01-01T00:00:00""}]"
-            };
+                "["
+                + @"{""Id"":0,""Reward"":0,""Goal"":"""",""Complete"":false},"
+                + @"{""Id"":1,""Reward"":1,""Goal"":""goal"",""Complete"":true}]"
+        };
         }
 
         private class QuestEqualityComparer : IEqualityComparer<Quest>
@@ -76,8 +78,7 @@ namespace Quester.UnitTests
                 return x.Id == y.Id
                     && x.Reward == y.Reward
                     && x.Goal == y.Goal
-                    && x.DateCreated == y.DateCreated
-                    && x.DateCompleted == y.DateCompleted;
+                    && x.Complete == y.Complete;
             }
 
             public int GetHashCode([DisallowNull] Quest obj)
