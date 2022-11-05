@@ -64,7 +64,7 @@ namespace Quester.UnitTests
                 "["
                 + @"{""Id"":0,""Reward"":0,""Goal"":"""",""Complete"":false},"
                 + @"{""Id"":1,""Reward"":1,""Goal"":""goal"",""Complete"":true}]"
-        };
+            };
         }
 
         private class QuestEqualityComparer : IEqualityComparer<Quest>

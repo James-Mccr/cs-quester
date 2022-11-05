@@ -6,6 +6,7 @@ using Quester.QuestSerialisers;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using static Quester.UnitTests.MockHelpers;
 
 namespace Quester.UnitTests
 {
@@ -14,11 +15,11 @@ namespace Quester.UnitTests
         [Fact]
         public void JsonQuestWriterCreate()
         {
-            var mockQuestSerialiser = new Mock<IQuestSerialiser>();
-            var mockTextWriter = new Mock<TextWriter>();
-            var writer = new JsonQuestWriter(mockQuestSerialiser.Object, mockTextWriter.Object);
-            Assert.Equal(mockQuestSerialiser.Object, writer.Serialiser);
-            Assert.Equal(mockTextWriter.Object, writer.TextWriter);
+            var mockQuestSerialiser = Mock<IQuestSerialiser>();
+            var mockTextWriter = Mock<TextWriter>();
+            var writer = new JsonQuestWriter(mockQuestSerialiser, mockTextWriter);
+            Assert.Equal(mockQuestSerialiser, writer.Serialiser);
+            Assert.Equal(mockTextWriter, writer.TextWriter);
         }
 
         [Fact]
@@ -44,8 +45,8 @@ namespace Quester.UnitTests
 
         public static IEnumerable<object[]> JsonQuestWriterNullConstructorData()
         {
-            yield return new object[] { null, new Mock<TextWriter>().Object, nameof(JsonQuestWriter.Serialiser) };
-            yield return new object[] { new Mock<IQuestSerialiser>().Object, null, nameof(JsonQuestWriter.TextWriter) };
+            yield return new object[] { null, null, nameof(JsonQuestWriter.Serialiser) };
+            yield return new object[] { Mock<IQuestSerialiser>(), null, nameof(JsonQuestWriter.TextWriter) };
         }
 }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Quester.Models;
 using Quester.QuestEqualityComparer;
 using Xunit;
-using static Quester.UnitTests.QuestHelpers;
+using static Quester.UnitTests.MockHelpers;
 
 namespace Quester.UnitTests
 {
@@ -27,19 +27,19 @@ namespace Quester.UnitTests
         public static IEnumerable<object[]> QuestIdEqualityComparerEqualsData()
         {
             yield return new object[] { null, null, false };
-            yield return new object[] { MakeQuest(0), null, false };
-            yield return new object[] { MakeQuest(0), MakeQuest(0), true };
-            yield return new object[] { MakeQuest(0), MakeQuest(1), false };
-            yield return new object[] { MakeQuest(int.MaxValue), MakeQuest(int.MaxValue), true };
-            yield return new object[] { MakeQuest(int.MinValue), MakeQuest(int.MinValue), true };
+            yield return new object[] { MockQuest(0), null, false };
+            yield return new object[] { MockQuest(0), MockQuest(0), true };
+            yield return new object[] { MockQuest(0), MockQuest(1), false };
+            yield return new object[] { MockQuest(int.MaxValue), MockQuest(int.MaxValue), true };
+            yield return new object[] { MockQuest(int.MinValue), MockQuest(int.MinValue), true };
         }
 
         public static IEnumerable<object[]> QuestIdEqualityComparerGetHashCodeData()
         {
-            yield return new object[] { MakeQuest(0), 0 };
-            yield return new object[] { MakeQuest(1), 1 };
-            yield return new object[] { MakeQuest(int.MaxValue), int.MaxValue };
-            yield return new object[] { MakeQuest(int.MinValue), int.MinValue };
+            yield return new object[] { MockQuest(0), 0 };
+            yield return new object[] { MockQuest(1), 1 };
+            yield return new object[] { MockQuest(int.MaxValue), int.MaxValue };
+            yield return new object[] { MockQuest(int.MinValue), int.MinValue };
         }
     }
 }

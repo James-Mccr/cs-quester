@@ -6,6 +6,7 @@ using Quester.Models;
 using Quester.QuestReaders;
 using Quester.QuestSerialisers;
 using Xunit;
+using static Quester.UnitTests.MockHelpers;
 
 namespace Quester.UnitTests
 {
@@ -14,11 +15,11 @@ namespace Quester.UnitTests
         [Fact]
         public void JsonQuestReaderCreate()
         {
-            var mockSerialiser = new Mock<IQuestSerialiser>();
-            var mockTextReader = new Mock<TextReader>();
-            var reader = new JsonQuestReader(mockSerialiser.Object, mockTextReader.Object);
-            Assert.Equal(mockSerialiser.Object, reader.Serialiser);
-            Assert.Equal(mockTextReader.Object, reader.TextReader);
+            var mockSerialiser = Mock<IQuestSerialiser>();
+            var mockTextReader = Mock<TextReader>();
+            var reader = new JsonQuestReader(mockSerialiser, mockTextReader);
+            Assert.Equal(mockSerialiser, reader.Serialiser);
+            Assert.Equal(mockTextReader, reader.TextReader);
         }
 
         [Fact]
@@ -45,8 +46,8 @@ namespace Quester.UnitTests
 
         public static IEnumerable<object[]> JsonQuestReaderNullConstructorData()
         {
-            yield return new object[] { null, new Mock<TextReader>().Object, nameof(JsonQuestReader.Serialiser) };
-            yield return new object[] { new Mock<IQuestSerialiser>().Object, null, nameof(JsonQuestReader.TextReader) };
+            yield return new object[] { null, null, nameof(JsonQuestReader.Serialiser) };
+            yield return new object[] { Mock<IQuestSerialiser>(), null, nameof(JsonQuestReader.TextReader) };
         }
     }
 }

@@ -4,7 +4,7 @@ using Quester.Models;
 using Xunit;
 using Moq;
 using Quester.QuestCollections;
-using static Quester.UnitTests.QuestHelpers;
+using static Quester.UnitTests.MockHelpers;
 
 namespace Quester.UnitTests
 {
@@ -38,9 +38,9 @@ namespace Quester.UnitTests
         public static IEnumerable<object[]> UniqueQuestCollectionData()
         {
             yield return new object[] { new Quest[0], 0 };
-            yield return new object[] { new Quest[] { MakeQuest(0) }, 1 };
-            yield return new object[] { new Quest[] { MakeQuest(0), MakeQuest(0) }, 2 };
-            yield return new object[] { new Quest[] { MakeQuest(0), MakeQuest(1), MakeQuest(2) }, 3 };
+            yield return new object[] { new Quest[] { MockQuest(0) }, 1 };
+            yield return new object[] { new Quest[] { MockQuest(0), MockQuest(0) }, 2 };
+            yield return new object[] { new Quest[] { MockQuest(0), MockQuest(1), MockQuest(2) }, 3 };
         }
     }
 }
