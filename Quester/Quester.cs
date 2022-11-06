@@ -1,21 +1,18 @@
 using System;
-using Quester.QuestCollections;
-using Quester.QuestReaders;
-using Quester.QuestWriters;
+using Quester.JournalWriters;
+using Quester.Models;
 
 namespace Quester
 {
     public class Quester
     {
-        public IQuestCollection QuestCollection { get; }
-        public IQuestReader QuestReader { get; }
-        public IQuestWriter QuestWriter { get; }
+        public Journal Journal { get; }
+        public IJournalWriter JournalWriter { get; }
 
-        public Quester(IQuestCollection questCollection, IQuestReader questReader, IQuestWriter questWriter)
+        public Quester(Journal journal, IJournalWriter journalWriter)
         {
-            QuestCollection = questCollection ?? throw new ArgumentNullException(nameof(QuestCollection));
-            QuestReader = questReader ?? throw new ArgumentNullException(nameof(QuestReader));
-            QuestWriter = questWriter ?? throw new ArgumentNullException(nameof(QuestWriter));
+            Journal = journal ?? throw new ArgumentNullException(nameof(Journal));
+            JournalWriter = journalWriter ?? throw new ArgumentNullException(nameof(JournalWriter));
         }
     }
 }

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Quester.QuestCollections;
-using Quester.QuestReaders;
-using Quester.QuestWriters;
+using Quester.JournalWriters;
+using Quester.Models;
 using Xunit;
 using static Quester.UnitTests.MockHelpers;
 
@@ -12,14 +11,13 @@ namespace Quester.UnitTests
     {
         [Theory]
         [MemberData(nameof(QuesterNullThrowsExceptionData))]
-        public void QuesterNullThrowsException(IQuestCollection questCollection, IQuestReader questReader, IQuestWriter questWriter, string paramName) 
-            => Assert.Throws<ArgumentNullException>(paramName, () => new Quester(questCollection, questReader, questWriter));
+        public void QuesterNullThrowsException(Journal journal, IJournalWriter journalWriter, string paramName) 
+            => Assert.Throws<ArgumentNullException>(paramName, () => new Quester(journal, journalWriter));
 
         public static IEnumerable<object[]> QuesterNullThrowsExceptionData()
         {
-            yield return new object[] { null, null, null, nameof(Quester.QuestCollection) };
-            yield return new object[] { Mock<IQuestCollection>(), null, null, nameof(Quester.QuestReader) };
-            yield return new object[] { Mock<IQuestCollection>(), Mock<IQuestReader>(), null, nameof(Quester.QuestWriter) };
+            yield return new object[] { null, null, nameof(Quester.Journal) };
+            yield return new object[] { MockJournal(), null, nameof(Quester.JournalWriter) };
         }
     }
 }
