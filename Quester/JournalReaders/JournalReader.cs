@@ -1,28 +1,27 @@
-using Quester.LevelReaders;
+using System.Collections.Generic;
 using Quester.Models;
-using Quester.QuestReaders;
-using Quester.RewardReaders;
+using Quester.Readers;
 using Quester.SetConverters;
 
 namespace Quester.JournalReaders
 {
     public class JournalReader : IJournalReader
     {
-        public IQuestReader QuestReader { get; }
-        public IRewardReader RewardReader { get; }
-        public ILevelReader LevelReader { get; }
+        public IReader<IEnumerable<Quest>> QuestsReader { get; }
+        public IReader<IEnumerable<Reward>> RewardsReader { get; }
+        public IReader<Level> LevelReader { get; }
         public ISetConverter<Quest> QuestSetConverter { get; }
         public ISetConverter<Reward> RewardSetConverter { get; }
 
         public JournalReader(
-            IQuestReader questReader,
-            IRewardReader rewardReader,
-            ILevelReader levelReader,
+            IReader<IEnumerable<Quest>> questsReader,
+            IReader<IEnumerable<Reward>> rewardsReader,
+            IReader<Level> levelReader,
             ISetConverter<Quest> questSetConverter,
             ISetConverter<Reward> rewardSetConverter)
         {
-            QuestReader = questReader;
-            RewardReader = rewardReader;
+            QuestsReader = questsReader;
+            RewardsReader = rewardsReader;
             LevelReader = levelReader;
             QuestSetConverter = questSetConverter;
             RewardSetConverter = rewardSetConverter;
@@ -30,9 +29,9 @@ namespace Quester.JournalReaders
 
         public Journal Read()
         {
-            var quests = QuestReader.Read();
+            var quests = QuestsReader.Read();
             var questSet = QuestSetConverter.Convert(quests);
-            var rewards = RewardReader.Read();
+            var rewards = RewardsReader.Read();
             var rewardSet = RewardSetConverter.Convert(rewards);
             var level = LevelReader.Read();
             return new Journal(questSet, rewardSet, level);

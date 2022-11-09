@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Quester.Models;
-using Quester.RewardEqualityComparers;
+using Quester.EqualityComparers;
 using Xunit;
 using static Quester.UnitTests.MockHelpers;
 

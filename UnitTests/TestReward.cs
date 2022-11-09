@@ -10,7 +10,7 @@ namespace Quester.UnitTests
         {
             var reward = new Reward(0, null, 0);
             Assert.Equal(0, reward.Id);
-            Assert.Equal(null, reward.Prize);
+            Assert.Null(reward.Prize);
             Assert.Equal(0, reward.Cost);
         }
 

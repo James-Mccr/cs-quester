@@ -1,27 +1,26 @@
 using Quester.Models;
-using Quester.RewardWriters;
-using Quester.LevelWriters;
-using Quester.QuestWriters;
+using Quester.Writers;
+using System.Collections.Generic;
 
 namespace Quester.JournalWriters
 {
     public class JournalWriter : IJournalWriter
     {
-        public IQuestWriter QuestWriter { get; }
-        public IRewardWriter RewardWriter { get; }
-        public ILevelWriter LevelWriter { get; }
+        public IWriter<IEnumerable<Quest>> QuestsWriter { get; }
+        public IWriter<IEnumerable<Reward>> RewardsWriter { get; }
+        public IWriter<Level> LevelWriter { get; }
     
-        public JournalWriter(IQuestWriter questWriter, IRewardWriter rewardWriter, ILevelWriter levelWriter)
+        public JournalWriter(IWriter<IEnumerable<Quest>> questsWriter, IWriter<IEnumerable<Reward>> rewardsWriter, IWriter<Level> levelWriter)
         {
-            QuestWriter = questWriter;
-            RewardWriter = rewardWriter;
+            QuestsWriter = questsWriter;
+            RewardsWriter = rewardsWriter;
             LevelWriter = levelWriter;
         }
 
         public void Write(Journal journal)
         {
-            QuestWriter.Write(journal.Quests);
-            RewardWriter.Write(journal.Rewards);
+            QuestsWriter.Write(journal.Quests);
+            RewardsWriter.Write(journal.Rewards);
             LevelWriter.Write(journal.Level);
         }
     }

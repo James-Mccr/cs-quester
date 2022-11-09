@@ -11,6 +11,6 @@ namespace Quester.SetConverters
             EqualityComparer = equalityComparer;
         }
 
-        public ISet<T> Convert(IEnumerable<T> items) => new HashSet<T>(items, EqualityComparer);
+        public ISet<T> Convert(IEnumerable<T> items) => items == null ? new HashSet<T>() : new HashSet<T>(items, EqualityComparer);
     }
 }
