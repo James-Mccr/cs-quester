@@ -4,7 +4,7 @@ using Quester.Models;
 
 namespace Quester.EqualityComparers
 {
-    public class QuestIdEqualityComparer : IEqualityComparer<Quest>
+    public class QuestEqualityComparer : IEqualityComparer<Quest>
     {
         public bool Equals(Quest x, Quest y)
         {

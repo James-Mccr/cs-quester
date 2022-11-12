@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">  
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net6.0</TargetFrameworks>
+    </PropertyGroup>  
+    <ItemGroup>
+      <PackageReference Include="CommandLineParser" Version="2.9.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>  
+    <ItemGroup>
+      <ProjectReference Include="..\Quester\Quester.csproj" />
+    </ItemGroup>
+</Project>  

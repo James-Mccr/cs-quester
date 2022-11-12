@@ -4,7 +4,7 @@ using Quester.Models;
 
 namespace Quester.EqualityComparers
 {
-    public class RewardIdEqualityComparer : IEqualityComparer<Reward>
+    public class RewardEqualityComparer : IEqualityComparer<Reward>
     {
         public bool Equals(Reward x, Reward y)
         {

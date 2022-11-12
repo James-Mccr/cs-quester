@@ -12,7 +12,7 @@ namespace Quester.UnitTests
         [MemberData(nameof(QuestIdEqualityComparerEqualsData))]
         public void QuestIdEqualityComparerEquals(Quest x, Quest y, bool questsEqual)
         {
-            var comparer = new QuestIdEqualityComparer();
+            var comparer = new QuestEqualityComparer();
             Assert.Equal(questsEqual, comparer.Equals(x, y));
         }
 
@@ -20,7 +20,7 @@ namespace Quester.UnitTests
         [MemberData(nameof(QuestIdEqualityComparerGetHashCodeData))]
         public void QuestIdEqualityComparerGetHashCode(Quest q, int hashCode)
         {
-            var comparer = new QuestIdEqualityComparer();
+            var comparer = new QuestEqualityComparer();
             Assert.Equal(hashCode, comparer.GetHashCode(q));
         }
 

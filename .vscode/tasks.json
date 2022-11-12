@@ -1,0 +1,47 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build All",
+        "dependsOn": ["Build Quester", "Build UnitTests", "Build CommandLineQuester"],
+        "dependsOrder": "sequence",
+        "group":{
+            "kind": "build",
+            "isDefault": true
+        }
+      },
+      {
+        "label": "Build Quester",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Quester/Quester.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+      { 
+        "label": "Build UnitTests",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build", 
+          "${workspaceFolder}/UnitTests/UnitTests.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+      },
+      { 
+        "label": "Build CommandLineQuester",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build", 
+          "${workspaceFolder}/CommandLineQuester/CommandLineQuester.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+      }
+    ]
+  }
