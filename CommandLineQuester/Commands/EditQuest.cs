@@ -8,14 +8,14 @@ using Quester.Writers;
 
 namespace CommandLineQuester.Commands
 {
-    public class RemoveQuest
+    public class EditQuest
     {
         public IReader<IEnumerable<Quest>> QuestsReader { get; }
         public IWriter<IEnumerable<Quest>> QuestsWriter { get; }
         public ISetConverter<Quest> QuestSetConverter { get; }
         public ISetSelector<Quest> QuestSetSelector { get; }
 
-        public RemoveQuest(
+        public EditQuest(            
             IReader<IEnumerable<Quest>> questsReader, 
             IWriter<IEnumerable<Quest>> questsWriter, 
             ISetConverter<Quest> questSetConverter, 
@@ -27,12 +27,13 @@ namespace CommandLineQuester.Commands
             QuestSetSelector = questSetSelector;
         }
 
-        public int Run(RemoveQuestOptions options)
+        public int Run(EditQuestOptions options)
         {
             var quests = QuestsReader.Read();
             var questSet = QuestSetConverter.Convert(quests);
             var quest = QuestSetSelector.Select(questSet, options.Id);
-            questSet.Remove(quest);
+            quest.Reward = options.Reward;
+            quest.Goal = options.Goal;
             QuestsWriter.Write(questSet);
             return 0;
         }

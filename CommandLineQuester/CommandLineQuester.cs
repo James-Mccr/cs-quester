@@ -49,10 +49,12 @@ namespace CommandLineQuester
 
             var addQuest = new AddQuest(questReader, questWriter, questSetConverter, questSetIdentifier);
             var removeQuest = new RemoveQuest(questReader, questWriter, questSetConverter, questSetSelector);
+            var editQuest = new EditQuest(questReader, questWriter, questSetConverter, questSetSelector);
 
-            Parser.Default.ParseArguments<AddQuestOptions, RemoveQuestOptions>(args)
+            Parser.Default.ParseArguments<AddQuestOptions, RemoveQuestOptions, EditQuestOptions>(args)
                 .WithParsed<AddQuestOptions>(options => addQuest.Run(options))
                 .WithParsed<RemoveQuestOptions>(options => removeQuest.Run(options))
+                .WithParsed<EditQuestOptions>(options => editQuest.Run(options))
                 .WithNotParsed(errors => 
                 {
                     foreach (var error in errors)
