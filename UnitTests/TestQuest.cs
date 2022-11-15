@@ -8,25 +8,22 @@ namespace Quester.UnitTests
         [Fact]
         public void CreateQuest()
         {
-            var q = new Quest(0, 0, string.Empty, false);
-            Assert.Equal(0, q.Id);
-            Assert.Equal(0, q.Reward);
+            var q = new Quest(1, string.Empty, true);
+            Assert.Equal(1, q.Reward);
             Assert.Empty(q.Goal);
-            Assert.False(q.Complete);
+            Assert.True(q.Complete);
         }
 
         [Fact]
         public void UpdateQuest()
         {
-            var q = new Quest(0, 0, string.Empty, false);
-            q.Id = 1;
-            q.Reward = 1;
+            var q = new Quest(1, string.Empty, true);
+            q.Reward = 2;
             q.Goal = "goal";
-            q.Complete = true;
-            Assert.Equal(1, q.Id);
-            Assert.Equal(1, q.Reward);
+            q.Complete = false;
+            Assert.Equal(2, q.Reward);
             Assert.Equal("goal", q.Goal);
-            Assert.True(q.Complete);
+            Assert.False(q.Complete);
         }
     }
 }

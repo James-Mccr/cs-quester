@@ -2,8 +2,8 @@ using CommandLine;
 
 namespace CommandLineQuester.CommandLineOptions
 {
-    [Verb("add-quest", HelpText="Add a quest")]
-    public class AddQuestOptions
+    [Verb("create-quest", HelpText="Add a quest")]
+    public class CreateQuestOptions
     {
         [Option('r', "reward", Required = true, HelpText = "Reward upon completing quest")]
         public int Reward { get; set; }

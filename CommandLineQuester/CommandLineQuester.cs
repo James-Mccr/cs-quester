@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using CommandLine;
 using CommandLineQuester.CommandLineOptions;
 using CommandLineQuester.Commands;
 using Newtonsoft.Json;
-using Quester.Comparers;
-using Quester.EqualityComparers;
+using Quester.Creators;
+using Quester.DefaultValueConverters;
+using Quester.Deleters;
+using Quester.Factories;
 using Quester.Models;
 using Quester.Readers;
+using Quester.Sequencers;
 using Quester.Serialisers;
-using Quester.SetConverters;
-using Quester.SetIdentifiers;
-using Quester.SetSelectors;
 using Quester.StreamProviders;
 using Quester.TextReaderProviders;
 using Quester.TextWriterProviders;
+using Quester.Updaters;
 using Quester.Writers;
 
 namespace CommandLineQuester
@@ -23,38 +25,36 @@ namespace CommandLineQuester
     {
         public static void Main(string[] args)
         {
+            var readOptions = new FileStreamOptions 
+            { 
+                Access = FileAccess.Read,
+                Mode = FileMode.OpenOrCreate    
+            };
+            var writeOptions = new FileStreamOptions 
+            { 
+                Access = FileAccess.Write,
+                Mode = FileMode.Create    
+            };
             var serialiserSettings = new JsonSerializerSettings() { Formatting = Formatting.Indented };
-            var questSerialiser = new JsonSerialiser<IEnumerable<Quest>>(serialiserSettings);
-            var readOptions = new System.IO.FileStreamOptions 
-            { 
-                Access = System.IO.FileAccess.Read,
-                Mode = System.IO.FileMode.OpenOrCreate    
-            };
-            var writeOptions = new System.IO.FileStreamOptions 
-            { 
-                Access = System.IO.FileAccess.Write,
-                Mode = System.IO.FileMode.Create    
-            };
-            var readOnlyFileStreamProvider = new FileStreamProvider("quests.json", readOptions);
-            var writeOnlyFileStreamProvider = new FileStreamProvider("quests.json", writeOptions);
-            var textReaderProvider = new StreamReaderProvider(readOnlyFileStreamProvider);
-            var textWriterProvider = new StreamWriterProvider(writeOnlyFileStreamProvider);
-            var stringReader = new StringReader(textReaderProvider);
-            var stringWriter = new StringWriter(textWriterProvider);
-            var questReader = new JsonReader<IEnumerable<Quest>>(stringReader, questSerialiser);
-            var questWriter = new JsonWriter<IEnumerable<Quest>>(stringWriter, questSerialiser);
-            var questSetConverter = new HashSetConverter<Quest>(new QuestEqualityComparer());
-            var questSetIdentifier = new QuestSetIdentifier(new QuestComparer());
-            var questSetSelector = new QuestSetSelector();
+            var idSequencer = new IncrementalIntSequencer();
 
-            var addQuest = new AddQuest(questReader, questWriter, questSetConverter, questSetIdentifier);
-            var removeQuest = new RemoveQuest(questReader, questWriter, questSetConverter, questSetSelector);
-            var editQuest = new EditQuest(questReader, questWriter, questSetConverter, questSetSelector);
+            var questKeyValueFactory = new KeyValueFactory<int, Quest>();
+            var questDefaultValueConverter = new NullDefaultValueConverter<IDictionary<int, Quest>>(questKeyValueFactory);
+            var questReader = MakeReader<IDictionary<int, Quest>>(serialiserSettings, "quests.json", readOptions, questDefaultValueConverter);
+            var questWriter = MakeWriter<IDictionary<int, Quest>>(serialiserSettings, "quests.json", writeOptions, questDefaultValueConverter);
+            var questCreator = new KeyValueCreator<int, Quest>(questReader, questWriter, idSequencer);
+            var questUpdater = new KeyValueUpdater<int, Quest>(questReader, questWriter);
+            var questDeleter = new KeyValueDeleter<int, Quest>(questReader, questWriter);
+            var createQuestCommand = new CreateQuestCommand(questCreator);
+            var readQuestCommand = new ReadQuestCommand(questReader);
+            var updateQuestCommand = new UpdateQuestCommand(questUpdater);
+            var deleteQuestCommand = new DeleteQuestCommand(questDeleter);
 
-            Parser.Default.ParseArguments<AddQuestOptions, RemoveQuestOptions, EditQuestOptions>(args)
-                .WithParsed<AddQuestOptions>(options => addQuest.Run(options))
-                .WithParsed<RemoveQuestOptions>(options => removeQuest.Run(options))
-                .WithParsed<EditQuestOptions>(options => editQuest.Run(options))
+            Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions>(args)
+                .WithParsed<CreateQuestOptions>(createQuestCommand.Run)
+                .WithParsed<ReadQuestOptions>(readQuestCommand.Run)
+                .WithParsed<UpdateQuestOptions>(updateQuestCommand.Run)
+                .WithParsed<DeleteQuestOptions>(deleteQuestCommand.Run)
                 .WithNotParsed(errors => 
                 {
                     foreach (var error in errors)
@@ -62,6 +62,32 @@ namespace CommandLineQuester
                         Console.WriteLine(error.ToString());
                     }
                 });
+
+            IReader<T> MakeReader<T>(
+                JsonSerializerSettings serialiserSettings,
+                string file,
+                FileStreamOptions fileStreamOptions,
+                IDefaultValueConverter<T> defaultValueConverter)
+            {
+                var questSerialiser = new JsonSerialiser<T>(serialiserSettings, defaultValueConverter);
+                var questsReadOnlyFileStreamProvider = new FileStreamProvider(file, readOptions);
+                var questsTextReaderProvider = new StreamReaderProvider(questsReadOnlyFileStreamProvider);
+                var questsStringReader = new Quester.Readers.StringReader(questsTextReaderProvider);
+                return new JsonReader<T>(questsStringReader, questSerialiser);
+            }
+
+            IWriter<T> MakeWriter<T>(
+                JsonSerializerSettings serialiserSettings,
+                string file,
+                FileStreamOptions fileStreamOptions,
+                IDefaultValueConverter<T> defaultValueConverter)
+            {
+                var questSerialiser = new JsonSerialiser<T>(serialiserSettings, defaultValueConverter);
+                var questsWriteOnlyFileStreamProvider = new FileStreamProvider(file, writeOptions);
+                var questsTextWriterProvider = new StreamWriterProvider(questsWriteOnlyFileStreamProvider);
+                var questsStringWriter = new Quester.Writers.StringWriter(questsTextWriterProvider);
+                return new JsonWriter<T>(questsStringWriter, questSerialiser);
+            }
 
         }
     }

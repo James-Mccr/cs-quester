@@ -1,18 +1,12 @@
-using System.Collections.Generic;
-
 namespace Quester.Models
 {
-    public class Journal 
+    public class Journal
     {
-        public ISet<Quest> Quests { get; set; }
-        public ISet<Reward> Rewards { get; set; }
-        public Level Level { get; set; }
+        public int Experience { get; set; }
 
-        public Journal(ISet<Quest> quests, ISet<Reward> rewards, Level level)
+        public Journal(int experience)
         {
-            Quests = quests;
-            Rewards = rewards;
-            Level = level;
+            Experience = experience;
         }
     }
 }
