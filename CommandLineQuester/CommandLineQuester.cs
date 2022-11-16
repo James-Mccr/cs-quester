@@ -5,6 +5,7 @@ using CommandLine;
 using CommandLineQuester.CommandLineOptions;
 using CommandLineQuester.Commands;
 using Newtonsoft.Json;
+using Quester.Completers;
 using Quester.Creators;
 using Quester.DefaultValueConverters;
 using Quester.Deleters;
@@ -45,16 +46,19 @@ namespace CommandLineQuester
             var questCreator = new KeyValueCreator<int, Quest>(questReader, questWriter, idSequencer);
             var questUpdater = new KeyValueUpdater<int, Quest>(questReader, questWriter);
             var questDeleter = new KeyValueDeleter<int, Quest>(questReader, questWriter);
+            var questCompleter = new QuestCompleter(questReader, questWriter);
             var createQuestCommand = new CreateQuestCommand(questCreator);
             var readQuestCommand = new ReadQuestCommand(questReader);
             var updateQuestCommand = new UpdateQuestCommand(questUpdater);
             var deleteQuestCommand = new DeleteQuestCommand(questDeleter);
+            var completeQuestCommand = new CompleteQuestCommand(questCompleter);
 
-            Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions>(args)
+            Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions, CompleteQuestOptions>(args)
                 .WithParsed<CreateQuestOptions>(createQuestCommand.Run)
                 .WithParsed<ReadQuestOptions>(readQuestCommand.Run)
                 .WithParsed<UpdateQuestOptions>(updateQuestCommand.Run)
                 .WithParsed<DeleteQuestOptions>(deleteQuestCommand.Run)
+                .WithParsed<CompleteQuestOptions>(completeQuestCommand.Run)
                 .WithNotParsed(errors => 
                 {
                     foreach (var error in errors)
