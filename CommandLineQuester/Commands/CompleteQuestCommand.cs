@@ -1,29 +1,28 @@
-using System;
 using CommandLineQuester.CommandLineOptions;
-using Quester.Completers;
+using Quester.Collections.Selectors;
+using Quester.Collections.Updaters;
+using Quester.Quests;
 
 namespace CommandLineQuester.Commands
 {
     public class CompleteQuestCommand
     {
-        public ICompleter Completer { get; }
-        
-        public CompleteQuestCommand(ICompleter completer)
+        public IUpdater<Quest> QuestUpdater { get; }
+        public ISelector<Quest> QuestSelector { get; }
+
+        public CompleteQuestCommand(IUpdater<Quest> questUpdater, ISelector<Quest> questSelector)
         {
-            Completer = completer;
+            QuestUpdater = questUpdater;
+            QuestSelector = questSelector;
         }
 
         public void Run(CompleteQuestOptions options)
         {
-            var completed = Completer.Complete(options.Id);
-            if (completed)
-            {
-                Console.WriteLine($"Completed quest {options.Id}!");
-            }
-            else
-            {
-                Console.WriteLine("FAILED!");
-            }
+            var quest = QuestSelector.Select(options.Id);
+            if (quest.Complete)
+                return;
+            quest.Complete = true;
+            QuestUpdater.Update(quest);
         }
     }
 }

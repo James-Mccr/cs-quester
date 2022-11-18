@@ -1,32 +1,28 @@
-using System;
 using CommandLineQuester.CommandLineOptions;
-using Quester.Models;
-using Quester.Updaters;
+using Quester.Collections.Selectors;
+using Quester.Collections.Updaters;
+using Quester.Quests;
 
 namespace CommandLineQuester.Commands
 {
     public class UpdateQuestCommand
     {        
-        public IUpdater<int, Quest> Updater { get; }        
+        public IUpdater<Quest> Updater { get; }
+        public ISelector<Quest> Selector { get; }
 
-        public UpdateQuestCommand(IUpdater<int, Quest> updater)
+        public UpdateQuestCommand(IUpdater<Quest> updater, ISelector<Quest> selector)
         {
             Updater = updater;
+            Selector = selector;
         }
 
         public void Run(UpdateQuestOptions options)
         {
-            var quest = new Quest(options.Reward, options.Goal, options.Complete);
-            var updated = Updater.Update(options.Id, quest);
-            if (!updated)
-            {
-                Console.WriteLine("FAILED!");
-            }
-            else 
-            {
-                Console.WriteLine($"Updated quest {options.Id}!");
-            }
-            
+            var quest = Selector.Select(options.Id);
+            quest.Complete = options.Complete;
+            quest.Goal = options.Goal;
+            quest.Reward = options.Reward;
+            Updater.Update(quest);
         }
     }
 }

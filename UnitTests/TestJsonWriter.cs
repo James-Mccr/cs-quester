@@ -1,6 +1,6 @@
 using Moq;
-using Quester.Serialiser;
-using Quester.Writers;
+using Quester.Io.Outputs;
+using Quester.Io.Serialisers;
 using Xunit;
 using static Quester.UnitTests.MockHelpers;
 
@@ -11,24 +11,24 @@ namespace Quester.UnitTests
         [Fact]
         public void JsonWriterConstruct()
         {
-            var mockStringWriter = Mock<IWriter<string>>();
+            var mockStringWriter = Mock<IOutput<string>>();
             var mockSerialiser = Mock<ISerialiser<It.IsAnyType>>();
-            var writer = new JsonWriter<It.IsAnyType>(mockStringWriter, mockSerialiser);
-            Assert.Equal(mockStringWriter, writer.StringWriter);
-            Assert.Equal(mockSerialiser, writer.Serialiser);
+            var output = new JsonOutput<It.IsAnyType>(mockStringWriter, mockSerialiser);
+            Assert.Equal(mockStringWriter, output.StringOutput);
+            Assert.Equal(mockSerialiser, output.Serialiser);
         }
 
         [Fact]
         public void JsonWriterWrite()
         {
-            var mockStringWriter = new Mock<IWriter<string>>();
+            var mockStringWriter = new Mock<IOutput<string>>();
             var mockSerialiser = new Mock<ISerialiser<It.IsAnyType>>();
             
-            var writer = new JsonWriter<It.IsAnyType>(mockStringWriter.Object, mockSerialiser.Object);
-            writer.Write(It.IsAny<It.IsAnyType>());
+            var output = new JsonOutput<It.IsAnyType>(mockStringWriter.Object, mockSerialiser.Object);
+            output.Set(It.IsAny<It.IsAnyType>());
 
             mockSerialiser.Verify(m => m.Serialise(It.IsAny<It.IsAnyType>()), Times.Once);
-            mockStringWriter.Verify(m => m.Write(It.IsAny<string>()), Times.Once);
+            mockStringWriter.Verify(m => m.Set(It.IsAny<string>()), Times.Once);
         }
     }
 }

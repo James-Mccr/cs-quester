@@ -1,7 +1,7 @@
 using Moq;
 using Newtonsoft.Json;
-using Quester.DefaultValueConverters;
-using Quester.Serialisers;
+using Quester.Collections.Converters;
+using Quester.Io.Serialisers;
 using Xunit;
 
 namespace Quester.UnitTests
@@ -12,7 +12,7 @@ namespace Quester.UnitTests
         public void JsonSerialiserConstruct()
         {
             var settings = new JsonSerializerSettings();
-            var mockDefaultValueConverter = new Mock<IDefaultValueConverter<It.IsAnyType>>();
+            var mockDefaultValueConverter = new Mock<IConverter<It.IsAnyType>>();
             var serialiser = new JsonSerialiser<It.IsAnyType>(settings, mockDefaultValueConverter.Object);
             Assert.Equal(settings, serialiser.Settings);
         }

@@ -10,8 +10,8 @@
             "request": "launch",
             "preLaunchTask": "Build All",
             "program": "${workspaceFolder}/CommandLineQuester/bin/Debug/net6.0/CommandLineQuester.dll",
-            "args": [ "create-quest", "-r", "1", "-g", "test" ],
-            "cwd": "${workspaceFolder}/CommandLineQuester",
+            "args": [ ],
+            "cwd": "${workspaceFolder}/CommandLineQuester/bin/Debug/net6.0",
             "console": "internalConsole",
             "stopAtEntry": false
         },

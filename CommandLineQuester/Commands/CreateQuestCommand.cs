@@ -1,25 +1,32 @@
-using System;
-using System.Collections.Generic;
 using CommandLineQuester.CommandLineOptions;
-using Quester.Creators;
-using Quester.Models;
+using Quester.Collections.Creators;
+using Quester.Collections.Readers;
+using Quester.Collections.Sequencers;
+using Quester.Quests;
 
 namespace CommandLineQuester.Commands
 {
     public class CreateQuestCommand
     {        
-        public ICreator<Quest, KeyValuePair<int, Quest>> Creator { get; }
+        public ICreator<Quest> Creator { get; }
+        public IReader<Quest> Reader { get; }
+        public ISequencer<Quest> Sequencer { get; }
 
-        public CreateQuestCommand(ICreator<Quest, KeyValuePair<int, Quest>> creator)
+        public CreateQuestCommand(ICreator<Quest> creator, IReader<Quest> reader, ISequencer<Quest> sequencer)
         {
             Creator = creator;
+            Reader = reader;
+            Sequencer = sequencer;
         }
 
         public void Run(CreateQuestOptions options)
         {
-            var quest = new Quest(options.Reward, options.Goal, false);
-            var pair = Creator.Create(quest);
-            Console.WriteLine($"Created quest {pair.Key}!");
+            var quests = Reader.Read();
+            var quest = Sequencer.Next(quests);
+            quest.Complete = false;
+            quest.Goal = options.Goal;
+            quest.Reward = options.Reward;
+            Creator.Create(quest);
         }
     }
 }

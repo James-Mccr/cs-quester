@@ -1,16 +1,15 @@
 using System;
-using System.Collections.Generic;
 using CommandLineQuester.CommandLineOptions;
-using Quester.Models;
-using Quester.Readers;
+using Quester.Collections.Readers;
+using Quester.Quests;
 
 namespace CommandLineQuester.Commands
 {
     public class ReadQuestCommand
     {        
-        public IReader<IDictionary<int, Quest>> Reader { get; }
+        public IReader<Quest> Reader { get; }
 
-        public ReadQuestCommand(IReader<IDictionary<int, Quest>> reader)
+        public ReadQuestCommand(IReader<Quest> reader)
         {
             Reader = reader;
         }
@@ -20,18 +19,12 @@ namespace CommandLineQuester.Commands
             var quests = Reader.Read();
             Console.WriteLine($"Id, Reward, Goal, Complete"); 
 
-            if (options.Id < 0)
-            {   
-                foreach (var quest in quests)
-                {
-                    Console.WriteLine($"{quest.Key}, {quest.Value.Reward}, {quest.Value.Goal}, {quest.Value.Complete}");
-                }
-            }
-            else 
+            var id = 0;
+            foreach (var quest in quests)
             {
-                var quest = quests[options.Id];
-                Console.WriteLine($"{options.Id}, {quest.Reward}, {quest.Goal}, {quest.Complete}");
+                Console.WriteLine($"{id++}, {quest.Reward}, {quest.Goal}, {quest.Complete}");
             }
+
         }
     }
 }

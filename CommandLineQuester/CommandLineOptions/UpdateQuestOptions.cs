@@ -7,11 +7,11 @@ namespace CommandLineQuester.CommandLineOptions
     {
         [Option('i', "id", Required = true, HelpText = "Id of a quest")]
         public int Id { get; set; }
-        [Option('r', "reward", Required = true, HelpText = "Reward upon completing quest")]
-        public int Reward { get; set; }
         [Option('g', "goal", Required = true, HelpText = "Goal to complete quest")]
         public string Goal { get; set; }
-        [Option('c', "complete", Required = true, HelpText = "Status of quest")]
+        [Option('r', "reward", Required = true, HelpText = "Reward upon completing quest")]
+        public int Reward { get; set; }
+        [Option('c', "complete", HelpText = "Status of quest")]
         public bool Complete { get; set; }
     }
 }

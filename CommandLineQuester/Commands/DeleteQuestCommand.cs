@@ -1,29 +1,25 @@
-using System;
 using CommandLineQuester.CommandLineOptions;
-using Quester.Deleters;
+using Quester.Collections.Deleters;
+using Quester.Collections.Selectors;
+using Quester.Quests;
 
 namespace CommandLineQuester.Commands
 {
     public class DeleteQuestCommand
     {        
-        public IDeleter<int> Deleter { get; }
+        public IDeleter<Quest> Deleter { get; }
+        public ISelector<Quest> Selector { get; }
 
-        public DeleteQuestCommand(IDeleter<int> deleter)
+        public DeleteQuestCommand(IDeleter<Quest> deleter, ISelector<Quest> selector)
         {
             Deleter = deleter;
+            Selector = selector;
         }
 
         public void Run(DeleteQuestOptions options)
         {
-            var deleted = Deleter.Delete(options.Id);
-            if (!deleted)
-            {
-                Console.WriteLine("FAILED!");
-            }
-            else 
-            {
-                Console.WriteLine($"Deleted quest {options.Id}!");
-            }
+            var quest = Selector.Select(options.Id);
+            Deleter.Delete(quest);
         }
     }
 }
