@@ -8,30 +8,19 @@ namespace Quester.Collections.Deleters
     {
         public IInput<ICollection<T>> Input { get; }
         public IOutput<IEnumerable<T>> Output { get; }
-        public IEqualityComparer<T> EqualityComparer { get; }
 
         public CollectionDeleter(
             IInput<ICollection<T>> input,
-            IOutput<IEnumerable<T>> output,
-            IEqualityComparer<T> equalityComparer)
+            IOutput<IEnumerable<T>> output)
         {
             Input = input;
             Output = output;
-            EqualityComparer = equalityComparer;
         }
 
         public void Delete(T itemToDelete)
         {
             var items = Input.Get();
-            foreach (var item in items)
-            {
-                if (EqualityComparer.Equals(itemToDelete, item))
-                {
-                    items.Remove(item);
-                    break;
-                }
-                
-            }
+            items.Remove(itemToDelete);
             Output.Set(items);
         }
     }

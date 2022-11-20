@@ -2,6 +2,7 @@ using CommandLineQuester.CommandLineOptions;
 using Quester.Collections.Creators;
 using Quester.Collections.Readers;
 using Quester.Collections.Sequencers;
+using Quester.Identities;
 using Quester.Quests;
 
 namespace CommandLineQuester.Commands
@@ -10,9 +11,9 @@ namespace CommandLineQuester.Commands
     {        
         public ICreator<Quest> Creator { get; }
         public IReader<Quest> Reader { get; }
-        public ISequencer<Quest> Sequencer { get; }
+        public ISequencer<IIdentifier> Sequencer { get; }
 
-        public CreateQuestCommand(ICreator<Quest> creator, IReader<Quest> reader, ISequencer<Quest> sequencer)
+        public CreateQuestCommand(ICreator<Quest> creator, IReader<Quest> reader, ISequencer<IIdentifier> sequencer)
         {
             Creator = creator;
             Reader = reader;
@@ -22,10 +23,8 @@ namespace CommandLineQuester.Commands
         public void Run(CreateQuestOptions options)
         {
             var quests = Reader.Read();
-            var quest = Sequencer.Next(quests);
-            quest.Complete = false;
-            quest.Goal = options.Goal;
-            quest.Reward = options.Reward;
+            var nextIdentifier = Sequencer.Next(quests);
+            var quest = new Quest(nextIdentifier.Id, options.Reward, options.Goal, false);
             Creator.Create(quest);
         }
     }

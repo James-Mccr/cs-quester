@@ -1,7 +1,7 @@
 using Quester.Quests;
 using Xunit;
 
-namespace Quester.UnitTests
+namespace UnitTests.Quests
 {
     public class TestQuest
     {
@@ -19,6 +19,7 @@ namespace Quester.UnitTests
         public void UpdateQuest()
         {
             var q = new Quest(1, 1, string.Empty, true);
+            q.Id = 2;
             q.Reward = 2;
             q.Goal = "goal";
             q.Complete = false;

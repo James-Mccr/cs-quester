@@ -1,6 +1,9 @@
+using System;
+using Quester.Identities;
+
 namespace Quester.Quests
 {
-    public class Quest
+    public class Quest : IIdentifier, IEquatable<Quest>
     {
         public int Id { get; set; }
         public int Reward { get; set; }
@@ -13,6 +16,15 @@ namespace Quester.Quests
             Reward = reward;
             Goal = goal;
             Complete = complete;
+        }
+
+        public bool Equals(Quest other)
+        {
+            if (ReferenceEquals(other, null))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+            return Id == other.Id;
         }
     }
 }

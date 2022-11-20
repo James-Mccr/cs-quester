@@ -2,14 +2,14 @@ using Moq;
 using Quester.Io.Inputs;
 using Quester.Io.Serialisers;
 using Xunit;
-using static Quester.UnitTests.MockHelpers;
+using static UnitTests.MockHelpers;
 
-namespace Quester.UnitTests
+namespace UnitTests.Io.Inputs
 {
-    public class TestJsonReader
+    public class TestJsonInput
     {
         [Fact]
-        public void JsonReaderConstruct()
+        public void JsonInputConstruct()
         {
             var mockStringReader = Mock<IInput<string>>();
             var mockSerialiser = Mock<ISerialiser<It.IsAnyType>>();
@@ -19,7 +19,7 @@ namespace Quester.UnitTests
         }
 
         [Fact]
-        public void JsonReaderRead()
+        public void JsonInputRead()
         {
             var mockStringReader = new Mock<IInput<string>>();
             var mockSerialiser = new Mock<ISerialiser<It.IsAnyType>>();

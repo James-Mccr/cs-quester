@@ -1,15 +1,17 @@
+using System.Collections.Generic;
 using Moq;
-using Quester.Models;
+using Quester.Identities;
 using Quester.Quests;
 
-namespace Quester.UnitTests
+namespace UnitTests
 {
     public static class MockHelpers
     {
         public static Quest MockQuest() => new Quest(0, 0, null, false);
-        public static Reward MockReward() => new Reward(null, 0);
-        public static Journal MockJournal() => new Journal(0);
-
+        public static Identifier Id(int i) => new Identifier(i);
         public static T Mock<T>() where T : class => new Mock<T>().Object;
+        public static It.IsAnyType Any() => It.IsAny<It.IsAnyType>();
+        public static IEnumerable<It.IsAnyType> AnyEnumerable() => It.IsAny<IEnumerable<It.IsAnyType>>();
+        public static ICollection<It.IsAnyType> AnyCollection() => It.IsAny<ICollection<It.IsAnyType>>();
     }
 }

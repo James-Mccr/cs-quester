@@ -1,6 +1,7 @@
 using System;
 using CommandLineQuester.CommandLineOptions;
 using Quester.Collections.Readers;
+using Quester.Collections.Utilities;
 using Quester.Quests;
 
 namespace CommandLineQuester.Commands
@@ -17,12 +18,17 @@ namespace CommandLineQuester.Commands
         public void Run(ReadQuestOptions options)
         {
             var quests = Reader.Read();
+            if (quests.IsEmpty())
+            {
+                Console.WriteLine("No quests found!");
+                return;
+            }
+
             Console.WriteLine($"Id, Reward, Goal, Complete"); 
 
-            var id = 0;
             foreach (var quest in quests)
             {
-                Console.WriteLine($"{id++}, {quest.Reward}, {quest.Goal}, {quest.Complete}");
+                Console.WriteLine($"{quest.Id}, {quest.Reward}, {quest.Goal}, {quest.Complete}");
             }
 
         }

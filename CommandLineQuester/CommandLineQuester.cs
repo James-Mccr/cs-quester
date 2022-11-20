@@ -12,10 +12,7 @@ using Quester.Collections.Factories;
 using Quester.Collections.Readers;
 using Quester.Collections.Selectors;
 using Quester.Collections.Sequencers;
-using Quester.Collections.Sorters;
 using Quester.Collections.Updaters;
-using Quester.Comparisons.Comparers;
-using Quester.Comparisons.EqualityComparers;
 using Quester.Io.Inputs;
 using Quester.Io.Outputs;
 using Quester.Io.Serialisers;
@@ -44,19 +41,17 @@ namespace CommandLineQuester
 
             var questConverter = new NullCollectionConverter<Quest>(new CollectionFactory<Quest>());
             var questInput = MakeJsonInput<ICollection<Quest>>(serialiserSettings, "quests.json", readOptions, questConverter);
-            var questWriter = MakeJsonOutput<IEnumerable<Quest>>(serialiserSettings, "quests.json", writeOptions, null);
+            var questOutput = MakeJsonOutput<IEnumerable<Quest>>(serialiserSettings, "quests.json", writeOptions, null);
             var questReader = new CollectionReader<Quest>(questInput);
-            var questCreator = new CollectionCreator<Quest>(questInput, questWriter);
-            var questUpdater = new CollectionUpdater<Quest>(questInput, questWriter, new QuestEqualityComparer());
-            var questDeleter = new CollectionDeleter<Quest>(questInput, questWriter, new QuestEqualityComparer());
-            var questSorter = new CollectionSorter<Quest>(new QuestComparer());
-            var questSelector = new CollectionSelector<Quest>(questReader, questSorter);
+            var questCreator = new CollectionCreator<Quest>(questInput, questOutput);
+            var questUpdater = new CollectionUpdater<Quest>(questInput, questOutput);
+            var questDeleter = new CollectionDeleter<Quest>(questInput, questOutput);
 
             var readQuestCommand = new ReadQuestCommand(questReader);
-            var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IncrementalQuestSequencer());
-            var updateQuestCommand = new UpdateQuestCommand(questUpdater, questSelector);
-            var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questSelector);
-            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questSelector);
+            var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IncrementalSequencer());
+            var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, new CollectionSelector<Quest>());
+            var updateQuestCommand = new UpdateQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>());
+            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>());
 
             Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions, CompleteQuestOptions>(args)
                 .WithParsed<CreateQuestOptions>(createQuestCommand.Run)

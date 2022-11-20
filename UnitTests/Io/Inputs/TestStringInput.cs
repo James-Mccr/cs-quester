@@ -3,14 +3,14 @@ using Moq;
 using Quester.Io.Inputs;
 using Quester.Io.TextReaderProviders;
 using Xunit;
-using static Quester.UnitTests.MockHelpers;
+using static UnitTests.MockHelpers;
 
-namespace Quester.UnitTests
+namespace UnitTests.Io.Inputs
 {
     public class TestStringInput
     {
         [Fact]
-        public void StringReaderConstruct()
+        public void StringInputConstruct()
         {
             var mockTextReaderProvider = Mock<ITextReaderProvider>();
             var reader = new StringInput(mockTextReaderProvider);
@@ -18,13 +18,13 @@ namespace Quester.UnitTests
         }
 
         [Fact]
-        public void StringReaderRead()
+        public void StringInputRead()
         {
             var mockTextReader = new Mock<TextReader>();
             var mockTextReaderProvider = new Mock<ITextReaderProvider>();
             mockTextReaderProvider.Setup(m => m.Provide()).Returns(mockTextReader.Object);
-            
             var input = new StringInput(mockTextReaderProvider.Object);
+
             input.Get();
 
             mockTextReaderProvider.Verify(m => m.Provide(), Times.Once);

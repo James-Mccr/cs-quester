@@ -2,14 +2,14 @@ using Moq;
 using Quester.Io.Outputs;
 using Quester.Io.Serialisers;
 using Xunit;
-using static Quester.UnitTests.MockHelpers;
+using static UnitTests.MockHelpers;
 
-namespace Quester.UnitTests
+namespace UnitTests.Io.Outputs
 {
-    public class TestJsonWriter
+    public class TestJsonOutput
     {
         [Fact]
-        public void JsonWriterConstruct()
+        public void JsonOutputConstruct()
         {
             var mockStringWriter = Mock<IOutput<string>>();
             var mockSerialiser = Mock<ISerialiser<It.IsAnyType>>();
@@ -19,7 +19,7 @@ namespace Quester.UnitTests
         }
 
         [Fact]
-        public void JsonWriterWrite()
+        public void JsonOutputWrite()
         {
             var mockStringWriter = new Mock<IOutput<string>>();
             var mockSerialiser = new Mock<ISerialiser<It.IsAnyType>>();
