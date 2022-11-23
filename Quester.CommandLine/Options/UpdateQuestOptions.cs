@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace CommandLineQuester.CommandLineOptions
+namespace Quester.Commandline.Options
 {
     [Verb("update-quest", HelpText = "Change a quest")]
     public class UpdateQuestOptions

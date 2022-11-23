@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace CommandLineQuester.CommandLineOptions
+namespace Quester.Commandline.Options
 {
     [Verb("create-quest", HelpText="Add a quest")]
     public class CreateQuestOptions

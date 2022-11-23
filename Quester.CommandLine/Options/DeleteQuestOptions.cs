@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace CommandLineQuester.CommandLineOptions
+namespace Quester.Commandline.Options
 {
     [Verb("delete-quest", HelpText="Remove a quest")]
     public class DeleteQuestOptions

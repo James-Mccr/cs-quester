@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using CommandLineQuester.CommandLineOptions;
+using Quester.Commandline.Options;
 using Common.Collections.Readers;
 using Quester.Quests;
 
-namespace CommandLineQuester.Commands
+namespace Quester.Commandline.Commands
 {
     public class ReadQuestCommand
     {        

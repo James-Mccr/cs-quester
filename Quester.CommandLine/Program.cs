@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using CommandLine;
-using CommandLineQuester.CommandLineOptions;
-using CommandLineQuester.Commands;
 using Common.Collections.Creators;
 using Common.Collections.Deleters;
 using Common.Collections.Readers;
@@ -19,11 +17,13 @@ using Common.Io.StreamProviders;
 using Common.Io.TextReaderProviders;
 using Common.Io.TextWriterProviders;
 using Newtonsoft.Json;
+using Quester.Commandline.Commands;
+using Quester.Commandline.Options;
 using Quester.Quests;
 
-namespace CommandLineQuester
+namespace Quester.CommandLine
 {
-    public class CommandLineQuester
+    public class Program
     {
         public static void Main(string[] args)
         {

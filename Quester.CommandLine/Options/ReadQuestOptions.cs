@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace CommandLineQuester.CommandLineOptions
+namespace Quester.Commandline.Options
 {
     [Verb("list-quests", HelpText="Display quests")]
     public class ReadQuestOptions {}

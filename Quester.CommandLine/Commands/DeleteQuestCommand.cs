@@ -1,11 +1,11 @@
-using CommandLineQuester.CommandLineOptions;
+using Quester.Commandline.Options;
 using Common.Collections.Deleters;
 using Common.Collections.Readers;
 using Common.Identities.Identifiers;
 using Common.Identities.Selectors;
 using Quester.Quests;
 
-namespace CommandLineQuester.Commands
+namespace Quester.Commandline.Commands
 {
     public class DeleteQuestCommand
     {        

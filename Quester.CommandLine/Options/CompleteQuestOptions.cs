@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace CommandLineQuester.CommandLineOptions
+namespace Quester.Commandline.Options
 {
     [Verb("complete-quest", HelpText="Complete a quest")]
     public class CompleteQuestOptions

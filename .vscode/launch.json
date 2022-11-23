@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "Build All",
-            "program": "${workspaceFolder}/CommandLineQuester/bin/Debug/net6.0/CommandLineQuester.dll",
+            "program": "${workspaceFolder}/Quester.CommandLine/bin/Debug/net6.0/Quester.CommandLine.dll",
             "args": [ ],
-            "cwd": "${workspaceFolder}/CommandLineQuester/bin/Debug/net6.0",
+            "cwd": "${workspaceFolder}/Quester.CommandLine/bin/Debug/net6.0",
             "console": "internalConsole",
             "stopAtEntry": false
         },

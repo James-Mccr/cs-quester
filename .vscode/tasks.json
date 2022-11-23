@@ -14,24 +14,14 @@
           "Build Common.Io",
           "Build Common.Io.UnitTests",
           "Build Quester",
-          "Build UnitTests",
-          "Build CommandLineQuester"],
+          "Build Quester.CommandLine",
+          "Build Quester.UnitTests"
+          ],
         "dependsOrder": "sequence",
         "group":{
             "kind": "build",
             "isDefault": true
         }
-      },
-
-      { 
-        "label": "Build CommandLineQuester",
-        "command": "dotnet",
-        "type": "process",
-        "args": [
-          "build", 
-          "${workspaceFolder}/CommandLineQuester/CommandLineQuester.csproj"
-        ],
-        "problemMatcher": "$msCompile",
       },
 
       {
@@ -107,6 +97,18 @@
       },
 
       {
+        "label": "Build Common.Tests",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Tests/Common.Tests.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
+      {
         "label": "Build Quester",
         "command": "dotnet",
         "type": "process",
@@ -116,6 +118,17 @@
         ],
         "problemMatcher": "$msCompile",
         
+      },
+
+      { 
+        "label": "Build Quester.CommandLine",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build", 
+          "${workspaceFolder}/Quester.CommandLine/Quester.CommandLine.csproj"
+        ],
+        "problemMatcher": "$msCompile",
       },
 
       { 
