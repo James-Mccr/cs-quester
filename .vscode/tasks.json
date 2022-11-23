@@ -119,12 +119,12 @@
       },
 
       { 
-        "label": "Build UnitTests",
+        "label": "Build Quester.UnitTests",
         "command": "dotnet",
         "type": "process",
         "args": [
           "build", 
-          "${workspaceFolder}/UnitTests/UnitTests.csproj"
+          "${workspaceFolder}/Quester.UnitTests/Quester.UnitTests.csproj"
         ],
         "problemMatcher": "$msCompile",
       },
