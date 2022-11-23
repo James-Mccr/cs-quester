@@ -1,8 +1,8 @@
 using CommandLineQuester.CommandLineOptions;
-using Quester.Collections.Deleters;
-using Quester.Collections.Readers;
-using Quester.Collections.Selectors;
-using Quester.Identities;
+using Common.Collections.Deleters;
+using Common.Collections.Readers;
+using Common.Identities.Identifiers;
+using Common.Identities.Selectors;
 using Quester.Quests;
 
 namespace CommandLineQuester.Commands

@@ -1,5 +1,5 @@
 using System;
-using Quester.Identities;
+using Common.Identities.Identifiers;
 
 namespace Quester.Quests
 {

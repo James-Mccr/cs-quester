@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using CommandLineQuester.CommandLineOptions;
-using Quester.Collections.Readers;
-using Quester.Collections.Utilities;
+using Common.Collections.Readers;
 using Quester.Quests;
 
 namespace CommandLineQuester.Commands
@@ -18,7 +18,7 @@ namespace CommandLineQuester.Commands
         public void Run(ReadQuestOptions options)
         {
             var quests = Reader.Read();
-            if (quests.IsEmpty())
+            if (quests.Count() == 0)
             {
                 Console.WriteLine("No quests found!");
                 return;

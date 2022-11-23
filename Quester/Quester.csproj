@@ -4,6 +4,6 @@
         <TargetFrameworks>net6.0</TargetFrameworks>
     </PropertyGroup>  
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <ProjectReference Include="..\Common.Identities\Common.Identities.csproj" />
     </ItemGroup>
 </Project>  

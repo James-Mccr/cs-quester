@@ -5,13 +5,107 @@
     "tasks": [
       {
         "label": "Build All",
-        "dependsOn": ["Build Quester", "Build UnitTests", "Build CommandLineQuester"],
+        "dependsOn": [
+          "Build Common.Tests",
+          "Build Common.Collections",
+          "Build Common.Collections.UnitTests",
+          "Build Common.Identities",
+          "Build Common.Identities.UnitTests",
+          "Build Common.Io",
+          "Build Common.Io.UnitTests",
+          "Build Quester",
+          "Build UnitTests",
+          "Build CommandLineQuester"],
         "dependsOrder": "sequence",
         "group":{
             "kind": "build",
             "isDefault": true
         }
       },
+
+      { 
+        "label": "Build CommandLineQuester",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build", 
+          "${workspaceFolder}/CommandLineQuester/CommandLineQuester.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+      },
+
+      {
+        "label": "Build Common.Collections",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Collections/Common.Collections.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
+      {
+        "label": "Build Common.Collections.UnitTests",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Collections.UnitTests/Common.Collections.UnitTests.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
+      {
+        "label": "Build Common.Identities",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Identities/Common.Identities.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
+      {
+        "label": "Build Common.Identities.UnitTests",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Identities.UnitTests/Common.Identities.UnitTests.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
+      {
+        "label": "Build Common.Io",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Io/Common.Io.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
+      {
+        "label": "Build Common.Io.UnitTests",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Io.UnitTests/Common.Io.UnitTests.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
+      },
+
       {
         "label": "Build Quester",
         "command": "dotnet",
@@ -23,6 +117,7 @@
         "problemMatcher": "$msCompile",
         
       },
+
       { 
         "label": "Build UnitTests",
         "command": "dotnet",
@@ -33,15 +128,5 @@
         ],
         "problemMatcher": "$msCompile",
       },
-      { 
-        "label": "Build CommandLineQuester",
-        "command": "dotnet",
-        "type": "process",
-        "args": [
-          "build", 
-          "${workspaceFolder}/CommandLineQuester/CommandLineQuester.csproj"
-        ],
-        "problemMatcher": "$msCompile",
-      }
     ]
   }

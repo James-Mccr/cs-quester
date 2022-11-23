@@ -9,5 +9,7 @@
     </ItemGroup>  
     <ItemGroup>
       <ProjectReference Include="..\Quester\Quester.csproj" />
+      <ProjectReference Include="..\Common.Io\Common.Io.csproj" />
+      <ProjectReference Include="..\Common.Collections\Common.Collections.csproj" />
     </ItemGroup>
 </Project>  
