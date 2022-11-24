@@ -30,7 +30,7 @@ namespace Quester.CommandLine
             var readOptions = new FileStreamOptions 
             { 
                 Access = FileAccess.Read,
-                Mode = FileMode.OpenOrCreate    
+                Mode = FileMode.OpenOrCreate
             };
             var writeOptions = new FileStreamOptions 
             { 
@@ -39,9 +39,11 @@ namespace Quester.CommandLine
             };
             var serialiserSettings = new JsonSerializerSettings() { Formatting = Formatting.Indented };
 
+            Directory.CreateDirectory(Common.App.Paths.DefaultFolder);
+            var questFilePath = Path.Combine(Common.App.Paths.DefaultFolder, Quester.Settings.QuestFile);
             var questConverter = new NullCollectionConverter<Quest>(new CollectionFactory<Quest>());
-            var questInput = MakeJsonInput<ICollection<Quest>>(serialiserSettings, "quests.json", readOptions, questConverter);
-            var questOutput = MakeJsonOutput<IEnumerable<Quest>>(serialiserSettings, "quests.json", writeOptions, null);
+            var questInput = MakeJsonInput<ICollection<Quest>>(serialiserSettings, questFilePath, readOptions, questConverter);
+            var questOutput = MakeJsonOutput<IEnumerable<Quest>>(serialiserSettings, questFilePath, writeOptions, null);
             var questReader = new CollectionReader<Quest>(questInput);
             var questCreator = new CollectionCreator<Quest>(questInput, questOutput);
             var questUpdater = new CollectionUpdater<Quest>(questInput, questOutput);
