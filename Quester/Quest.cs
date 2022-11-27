@@ -1,7 +1,7 @@
 using System;
 using Common.Identities.Identifiers;
 
-namespace Quester.Quests
+namespace Quester
 {
     public class Quest : IIdentifier, IEquatable<Quest>
     {

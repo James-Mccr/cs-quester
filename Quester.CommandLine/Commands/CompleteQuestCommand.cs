@@ -3,7 +3,9 @@ using Common.Collections.Readers;
 using Common.Collections.Updaters;
 using Common.Identities.Identifiers;
 using Common.Identities.Selectors;
-using Quester.Quests;
+using Common.Io.Inputs;
+using Common.Io.Outputs;
+using Common.Journals;
 
 namespace Quester.Commandline.Commands
 {
@@ -12,12 +14,20 @@ namespace Quester.Commandline.Commands
         public IUpdater<Quest> QuestUpdater { get; }
         public IReader<Quest> QuestReader { get; }
         public ISelector<Quest> QuestSelector { get; }
+        public IInput<Journal> JournalInput { get; }
+        public IOutput<Journal> JournalOutput { get; }
 
-        public CompleteQuestCommand(IUpdater<Quest> questUpdater, IReader<Quest> questReader, ISelector<Quest> questSelector)
+        public CompleteQuestCommand(IUpdater<Quest> questUpdater,
+                                    IReader<Quest> questReader,
+                                    ISelector<Quest> questSelector,
+                                    IInput<Journal> journalInput,
+                                    IOutput<Journal> journalOutput)
         {
             QuestUpdater = questUpdater;
             QuestReader = questReader;
             QuestSelector = questSelector;
+            JournalInput = journalInput;
+            JournalOutput = journalOutput;
         }
 
         public void Run(CompleteQuestOptions options)
@@ -28,6 +38,10 @@ namespace Quester.Commandline.Commands
                 return;
             quest.Complete = true;
             QuestUpdater.Update(quest);
+
+            var journal = JournalInput.Get();   // todo refactor into a journal updater
+            journal.Merits += quest.Reward;
+            JournalOutput.Set(journal);
         }
     }
 }

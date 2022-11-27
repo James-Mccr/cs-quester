@@ -1,7 +1,6 @@
-using Quester.Quests;
 using Xunit;
 
-namespace Quester.UnitTests.Quests
+namespace Quester.UnitTests
 {
     public class TestQuest
     {

@@ -16,10 +16,10 @@ using Common.Io.Serialisers;
 using Common.Io.StreamProviders;
 using Common.Io.TextReaderProviders;
 using Common.Io.TextWriterProviders;
+using Common.Journals;
 using Newtonsoft.Json;
 using Quester.Commandline.Commands;
 using Quester.Commandline.Options;
-using Quester.Quests;
 
 namespace Quester.CommandLine
 {
@@ -39,9 +39,9 @@ namespace Quester.CommandLine
             };
             var serialiserSettings = new JsonSerializerSettings() { Formatting = Formatting.Indented };
 
-            Directory.CreateDirectory(Common.App.Paths.DefaultFolder);
-            var questFilePath = Path.Combine(Common.App.Paths.DefaultFolder, Quester.Settings.QuestFile);
-            var questConverter = new NullCollectionConverter<Quest>(new CollectionFactory<Quest>());
+            Common.App.Paths.CreateDefaultFolder();
+            var questFilePath = Path.Combine(Common.App.Paths.DefaultFolder, Quester.QuesterSettings.QuestFile);
+            var questConverter = new NullConverter<ICollection<Quest>>(new CollectionFactory<Quest>());
             var questInput = MakeJsonInput<ICollection<Quest>>(serialiserSettings, questFilePath, readOptions, questConverter);
             var questOutput = MakeJsonOutput<IEnumerable<Quest>>(serialiserSettings, questFilePath, writeOptions, null);
             var questReader = new CollectionReader<Quest>(questInput);
@@ -49,11 +49,16 @@ namespace Quester.CommandLine
             var questUpdater = new CollectionUpdater<Quest>(questInput, questOutput);
             var questDeleter = new CollectionDeleter<Quest>(questInput, questOutput);
 
+            var journalFilePath = Path.Combine(Common.App.Paths.DefaultFolder, Common.Journals.JournalSettings.JournalFile);
+            var journalConverter = new NullConverter<Journal>(new DefaultFactory<Journal>());
+            var journalInput = MakeJsonInput<Journal>(serialiserSettings, journalFilePath, readOptions, journalConverter);
+            var journalOutput = MakeJsonOutput<Journal>(serialiserSettings, journalFilePath, writeOptions, null);
+
             var readQuestCommand = new ReadQuestCommand(questReader);
             var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IncrementalSequencer());
             var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, new CollectionSelector<Quest>());
             var updateQuestCommand = new UpdateQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>());
-            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>());
+            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>(), journalInput, journalOutput);
 
             Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions, CompleteQuestOptions>(args)
                 .WithParsed<CreateQuestOptions>(createQuestCommand.Run)

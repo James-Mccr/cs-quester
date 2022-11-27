@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Moq;
 using Common.Io.Converters;
 using Common.Io.Factories;
@@ -7,21 +6,21 @@ using static Common.Tests.MockHelpers;
 
 namespace Common.Io.UnitTests.Converters
 {
-    public class TestNullCollectionConverter
+    public class TestNullConverter
     {
         [Fact]
-        public void NullCollectionConverterConstruct()
+        public void NullConverterConstruct()
         {
-            var factory = Mock<IFactory<ICollection<It.IsAnyType>>>();
-            var converter = new NullCollectionConverter<It.IsAnyType>(factory);
+            var factory = Mock<IFactory<It.IsAnyType>>();
+            var converter = new NullConverter<It.IsAnyType>(factory);
             Assert.Equal(factory, converter.Factory);
         }
 
         [Fact]
-        public void NullCollectionConverterConvertNull()
+        public void NullConverterConvertNull()
         {
-            var factory = new Mock<IFactory<ICollection<It.IsAnyType>>>();
-            var converter = new NullCollectionConverter<It.IsAnyType>(factory.Object);
+            var factory = new Mock<IFactory<It.IsAnyType>>();
+            var converter = new NullConverter<It.IsAnyType>(factory.Object);
 
             converter.Convert(null);
 
@@ -31,14 +30,14 @@ namespace Common.Io.UnitTests.Converters
         [Fact]
         public void NullCollectionConverterConvertNonNull()
         {
-            var items = new It.IsAnyType[0];
-            var factory = new Mock<IFactory<ICollection<It.IsAnyType>>>();
-            var converter = new NullCollectionConverter<It.IsAnyType>(factory.Object);
+            var item = new It.IsAnyType();
+            var factory = new Mock<IFactory<It.IsAnyType>>();
+            var converter = new NullConverter<It.IsAnyType>(factory.Object);
 
-            var output = converter.Convert(items);
+            var output = converter.Convert(item);
 
             factory.Verify(m => m.Make(), Times.Never);
-            Assert.Equal(items, output);
+            Assert.Equal(item, output);
         }
     }
 }

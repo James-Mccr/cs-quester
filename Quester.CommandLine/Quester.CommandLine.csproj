@@ -12,5 +12,7 @@
       <ProjectReference Include="..\Common.App\Common.App.csproj" />
       <ProjectReference Include="..\Common.Io\Common.Io.csproj" />
       <ProjectReference Include="..\Common.Collections\Common.Collections.csproj" />
+      <ProjectReference Include="..\Common.Journals\Common.Journals.csproj" />
     </ItemGroup>
 </Project>  
+

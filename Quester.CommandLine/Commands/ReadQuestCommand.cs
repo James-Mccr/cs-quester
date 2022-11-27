@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Quester.Commandline.Options;
 using Common.Collections.Readers;
-using Quester.Quests;
 
 namespace Quester.Commandline.Commands
 {

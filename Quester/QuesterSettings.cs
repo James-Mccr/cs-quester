@@ -1,6 +1,6 @@
 namespace Quester
 {
-    public static class Settings
+    public static class QuesterSettings
     {
         public const string QuestFile = "quests.json";
     }

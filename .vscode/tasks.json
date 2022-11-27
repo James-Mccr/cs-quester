@@ -7,12 +7,15 @@
         "label": "Build All",
         "dependsOn": [
           "Build Common.Tests",
+          "Build Common.App",
           "Build Common.Collections",
           "Build Common.Collections.UnitTests",
           "Build Common.Identities",
           "Build Common.Identities.UnitTests",
           "Build Common.Io",
           "Build Common.Io.UnitTests",
+          "Build Common.Journals",
+          "Build Common.Journals.UnitTests",
           "Build Quester",
           "Build Quester.CommandLine",
           "Build Quester.UnitTests"
@@ -22,6 +25,18 @@
             "kind": "build",
             "isDefault": true
         }
+      },
+
+      {
+        "label": "Build Common.App",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.App/Common.App.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        
       },
 
       {
@@ -94,6 +109,28 @@
         ],
         "problemMatcher": "$msCompile",
         
+      },
+
+      {
+        "label": "Build Common.Journals",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Journals/Common.Journals.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+      },
+
+      {
+        "label": "Build Common.Journals.UnitTests",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build", 
+            "${workspaceFolder}/Common.Journals.UnitTests/Common.Journals.UnitTests.csproj"
+        ],
+        "problemMatcher": "$msCompile",
       },
 
       {
