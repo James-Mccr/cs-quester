@@ -10,9 +10,9 @@ namespace Quester.Commandline.Commands
     {        
         public IDeleter<Quest> QuestDeleter { get; }
         public IReader<Quest> QuestReader { get; }
-        public ISelector<Quest> QuestSelector { get; }
+        public ISelector<Quest, IIdentifier> QuestSelector { get; }
 
-        public DeleteQuestCommand(IDeleter<Quest> questDeleter, IReader<Quest> questReader, ISelector<Quest> questSelector)
+        public DeleteQuestCommand(IDeleter<Quest> questDeleter, IReader<Quest> questReader, ISelector<Quest, IIdentifier> questSelector)
         {
             QuestDeleter = questDeleter;
             QuestReader = questReader;

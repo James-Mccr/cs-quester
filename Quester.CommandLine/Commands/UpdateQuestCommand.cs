@@ -9,10 +9,10 @@ namespace Quester.Commandline.Commands
     public class UpdateQuestCommand
     {        
         public IUpdater<Quest> QuestUpdater { get; }
-        public ISelector<Quest> QuestSelector { get; }
+        public ISelector<Quest, IIdentifier> QuestSelector { get; }
         public IReader<Quest> QuestReader { get; }
 
-        public UpdateQuestCommand(IUpdater<Quest> questUpdater, IReader<Quest> questReader, ISelector<Quest> questSelector)
+        public UpdateQuestCommand(IUpdater<Quest> questUpdater, IReader<Quest> questReader, ISelector<Quest, IIdentifier> questSelector)
         {
             QuestUpdater = questUpdater;
             QuestSelector = questSelector;

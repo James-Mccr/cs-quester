@@ -13,13 +13,13 @@ namespace Quester.Commandline.Commands
     {
         public IUpdater<Quest> QuestUpdater { get; }
         public IReader<Quest> QuestReader { get; }
-        public ISelector<Quest> QuestSelector { get; }
+        public ISelector<Quest, IIdentifier> QuestSelector { get; }
         public IInput<Journal> JournalInput { get; }
         public IOutput<Journal> JournalOutput { get; }
 
         public CompleteQuestCommand(IUpdater<Quest> questUpdater,
                                     IReader<Quest> questReader,
-                                    ISelector<Quest> questSelector,
+                                    ISelector<Quest, IIdentifier> questSelector,
                                     IInput<Journal> journalInput,
                                     IOutput<Journal> journalOutput)
         {

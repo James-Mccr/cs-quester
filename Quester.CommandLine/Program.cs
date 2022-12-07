@@ -56,9 +56,9 @@ namespace Quester.CommandLine
 
             var readQuestCommand = new ReadQuestCommand(questReader);
             var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IncrementalSequencer());
-            var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, new CollectionSelector<Quest>());
-            var updateQuestCommand = new UpdateQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>());
-            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new CollectionSelector<Quest>(), journalInput, journalOutput);
+            var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, new IdentifierSelector<Quest>());
+            var updateQuestCommand = new UpdateQuestCommand(questUpdater, questReader, new IdentifierSelector<Quest>());
+            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new IdentifierSelector<Quest>(), journalInput, journalOutput);
 
             Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions, CompleteQuestOptions>(args)
                 .WithParsed<CreateQuestOptions>(createQuestCommand.Run)

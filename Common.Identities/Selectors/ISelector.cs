@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Common.Identities.Identifiers;
 
 namespace Common.Identities.Selectors
 {
-    public interface ISelector<T> where T : IIdentifier
+    public interface ISelector<T1, T2>
     {
-        T Select(IEnumerable<T> items, IIdentifier item);
+        T1 Select(IEnumerable<T1> items, T2 item);
     }
 }
