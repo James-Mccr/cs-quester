@@ -55,7 +55,7 @@ namespace Quester.CommandLine
             var journalOutput = MakeJsonOutput<Journal>(serialiserSettings, journalFilePath, writeOptions, null);
 
             var readQuestCommand = new ReadQuestCommand(questReader);
-            var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IncrementalSequencer());
+            var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IdentifierSequencer());
             var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, new IdentifierSelector<Quest>());
             var updateQuestCommand = new UpdateQuestCommand(questUpdater, questReader, new IdentifierSelector<Quest>());
             var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new IdentifierSelector<Quest>(), journalInput, journalOutput);

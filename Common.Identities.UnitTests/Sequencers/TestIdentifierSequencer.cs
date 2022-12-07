@@ -6,25 +6,25 @@ using static Common.Identities.UnitTests.Helpers;
 
 namespace Common.Identities.UnitTests.Sequencers
 {
-    public class TestIncrementalSequencer
+    public class TestIdentifierSequencer
     {
         [Fact]
-        public void IncrementalSequencerConstruct()
+        public void IdentifierSequencerConstruct()
         {
-            var sequencer = new IncrementalSequencer();
+            var sequencer = new IdentifierSequencer();
             Assert.Equal(1, sequencer.Increment);
         }
 
         [Theory]
-        [MemberData(nameof(IncrementalSequencerNextData))]
-        public void IncrementalSequencerNext(IEnumerable<IIdentifier> items, IIdentifier expected)
+        [MemberData(nameof(IdentifierSequencerNextData))]
+        public void IdentifierSequencerNext(IEnumerable<IIdentifier> items, IIdentifier expected)
         {
-            var sequencer = new IncrementalSequencer();
+            var sequencer = new IdentifierSequencer();
             var next = sequencer.Next(items);
             Assert.Equal(expected, next, new IdentifierTestEqualityComparer());
         }
 
-        public static IEnumerable<object[]> IncrementalSequencerNextData()
+        public static IEnumerable<object[]> IdentifierSequencerNextData()
         {
             yield return new object[] { new IIdentifier[0], Id(0) };
             yield return new object[] { new IIdentifier[] { Id(0) }, Id(1) };

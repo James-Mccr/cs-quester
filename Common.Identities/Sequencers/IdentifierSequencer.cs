@@ -4,11 +4,11 @@ using Common.Identities.Identifiers;
 
 namespace Common.Identities.Sequencers
 {
-    public class IncrementalSequencer : ISequencer<IIdentifier>
+    public class IdentifierSequencer : ISequencer<IIdentifier>
     {
         public int Increment { get; }
 
-        public IncrementalSequencer(int increment = 1)
+        public IdentifierSequencer(int increment = 1)
         {
             Increment = increment;
         }
