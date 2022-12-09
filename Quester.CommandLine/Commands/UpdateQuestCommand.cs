@@ -1,32 +1,34 @@
 using Quester.Commandline.Options;
 using Common.Collections.Readers;
-using Common.Collections.Updaters;
 using Common.Identities.Identifiers;
 using Common.Identities.Selectors;
+using Common.Io.Outputs;
+using System.Collections.Generic;
 
 namespace Quester.Commandline.Commands
 {
     public class UpdateQuestCommand
     {        
-        public IUpdater<Quest> QuestUpdater { get; }
-        public ISelector<Quest, IIdentifier> QuestSelector { get; }
         public IReader<Quest> QuestReader { get; }
+        public IOutput<IEnumerable<Quest>> QuestWriter { get; }
+        public ISelector<Quest, IIdentifier> QuestIdSelector { get; }
 
-        public UpdateQuestCommand(IUpdater<Quest> questUpdater, IReader<Quest> questReader, ISelector<Quest, IIdentifier> questSelector)
+        public UpdateQuestCommand(
+            IReader<Quest> questReader,
+            IOutput<IEnumerable<Quest>> questWriter,
+            ISelector<Quest, IIdentifier> questIdSelector)
         {
-            QuestUpdater = questUpdater;
-            QuestSelector = questSelector;
+            QuestIdSelector = questIdSelector;
             QuestReader = questReader;
+            QuestWriter = questWriter;
         }
 
         public void Run(UpdateQuestOptions options)
         {
             var quests = QuestReader.Read();
-            var quest = QuestSelector.Select(quests, new Identifier(options.Id));
-            quest.Complete = options.Complete;
+            var quest = QuestIdSelector.Select(quests, new Identifier(options.Id));
             quest.Goal = options.Goal;
-            quest.Reward = options.Reward;
-            QuestUpdater.Update(quest);
+            QuestWriter.Set(quests);
         }
     }
 }

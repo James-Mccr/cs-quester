@@ -1,17 +1,16 @@
 using System.Collections.Generic;
-using Common.Io.Inputs;
 
 namespace Common.Collections.Readers
 {
     public class CollectionReader<T> : IReader<T>
     {
-        public IInput<ICollection<T>> Input { get; }
-
-        public CollectionReader(IInput<ICollection<T>> input)
+        public CollectionReader(ICollection<T> collection)
         {
-            Input = input;
+            Collection = collection;
         }
 
-        public IEnumerable<T> Read() => Input.Get();
+        public ICollection<T> Collection { get; }
+
+        public ICollection<T> Read() => Collection;
     }
 }

@@ -1,25 +1,15 @@
 using System.Collections.Generic;
-using Common.Io.Inputs;
-using Common.Io.Outputs;
 
 namespace Common.Collections.Creators
 {
     public class CollectionCreator<T> : ICreator<T>
     {
-        public IInput<ICollection<T>> Input { get; }
-        public IOutput<IEnumerable<T>> Output { get; }
-
-        public CollectionCreator(IInput<ICollection<T>> input, IOutput<IEnumerable<T>> output)
+        public void Create(ICollection<T> items, IEnumerable<T> itemsToCreate)
         {
-            Input = input;
-            Output = output;
-        }
-
-        public void Create(T item)
-        {
-            var items = Input.Get();
-            items.Add(item);
-            Output.Set(items);
+            foreach (var item in itemsToCreate)
+            {
+                items.Add(item);
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Common.Identities.Identifiers;
 using Common.Identities.Sequencers;
 using Xunit;
-using static Common.Identities.UnitTests.Helpers;
+using static Common.Identities.UnitTests.IdentityHelpers;
 
 namespace Common.Identities.UnitTests.Sequencers
 {

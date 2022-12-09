@@ -4,6 +4,6 @@ namespace Common.Collections.Readers
 {
     public interface IReader<T>
     {
-        IEnumerable<T> Read();
+        ICollection<T> Read();
     }
 }

@@ -2,11 +2,9 @@ using CommandLine;
 
 namespace Quester.Commandline.Options
 {
-    [Verb("create-quest", HelpText="Add a quest")]
+    [Verb("create", HelpText="Add a quest")]
     public class CreateQuestOptions
     {
-        [Option('r', "reward", Required = true, HelpText = "Reward upon completing quest")]
-        public int Reward { get; set; }
         [Option('g', "goal", Required = true, HelpText = "Goal to complete quest")]
         public string Goal { get; set; }
     }

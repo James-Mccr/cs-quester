@@ -23,30 +23,13 @@ namespace Quester.Commandline.Commands
                 return;
             }
 
-            if (options.HideComplete)
-            {
-                quests = quests.Where(q => !q.Complete);
-            }
+            IOrderedEnumerable<Quest> sortedQuests = quests.OrderBy(q => q.Priority);
 
-            IOrderedEnumerable<Quest> sortedQuests = quests.OrderBy(q => q.Id);
-            if (options.SortByReward)
-            {
-                sortedQuests = quests.OrderBy(q => q.Reward);
-            }
-            else if (options.SortByGoal)
-            {
-                sortedQuests = quests.OrderBy(q => q.Goal);
-            }
-            else if (options.SortByComplete)
-            {
-                sortedQuests = quests.OrderBy(q => q.Complete);
-            }
-
-            Console.WriteLine($"Id\tDone\tReward\tGoal"); 
+            Console.WriteLine($"Id\tOrder\tGoal"); 
 
             foreach (var quest in sortedQuests)
             {
-                Console.WriteLine($"{quest.Id}\t{quest.Complete}\t{quest.Reward}\t{quest.Goal}");
+                Console.WriteLine($"{quest.Id}\t{quest.Priority}\t{quest.Goal}");
             }
 
         }

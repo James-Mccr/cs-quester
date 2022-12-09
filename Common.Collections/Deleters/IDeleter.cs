@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace Common.Collections.Deleters
 {
     public interface IDeleter<T>
     {
-        void Delete(T item);
+        void Delete(ICollection<T> items, IEnumerable<T> itemsToDelete);
     }
 }

@@ -1,21 +1,20 @@
 using System;
 using Common.Identities.Identifiers;
+using Common.Identities.Priorities;
 
 namespace Quester
 {
-    public class Quest : IIdentifier, IEquatable<Quest>
+    public class Quest : IIdentifier, IPriority, IEquatable<Quest>
     {
         public int Id { get; set; }
-        public int Reward { get; set; }
+        public int Priority { get; set; }
         public string Goal { get; set; }
-        public bool Complete { get; set; }
 
-        public Quest(int id, int reward, string goal, bool complete)
+        public Quest(int id, int priority, string goal)
         {
             Id = id;
-            Reward = reward;
+            Priority = priority;
             Goal = goal;
-            Complete = complete;
         }
 
         public bool Equals(Quest other)

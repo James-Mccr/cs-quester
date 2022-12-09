@@ -14,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Tests\Common.Tests.csproj" />
-    <ProjectReference Include="..\Common.Io\Common.Io.csproj" />
     <ProjectReference Include="..\Common.Collections\Common.Collections.csproj" />
   </ItemGroup>
 </Project>

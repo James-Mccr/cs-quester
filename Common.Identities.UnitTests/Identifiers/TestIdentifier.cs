@@ -12,7 +12,7 @@ namespace Common.Identities.UnitTests.Identifiers
             Assert.Equal(1, identifier.Id);
         }
 
-                [Fact]
+        [Fact]
         public void IdentifierSet()
         {
             var identifier = new Identifier(0);

@@ -5,9 +5,9 @@ using CommandLine;
 using Common.Collections.Creators;
 using Common.Collections.Deleters;
 using Common.Collections.Readers;
-using Common.Collections.Updaters;
 using Common.Identities.Selectors;
 using Common.Identities.Sequencers;
+using Common.Identities.Shifters;
 using Common.Io.Converters;
 using Common.Io.Factories;
 using Common.Io.Inputs;
@@ -16,7 +16,6 @@ using Common.Io.Serialisers;
 using Common.Io.StreamProviders;
 using Common.Io.TextReaderProviders;
 using Common.Io.TextWriterProviders;
-using Common.Journals;
 using Newtonsoft.Json;
 using Quester.Commandline.Commands;
 using Quester.Commandline.Options;
@@ -44,28 +43,26 @@ namespace Quester.CommandLine
             var questConverter = new NullConverter<ICollection<Quest>>(new CollectionFactory<Quest>());
             var questInput = MakeJsonInput<ICollection<Quest>>(serialiserSettings, questFilePath, readOptions, questConverter);
             var questOutput = MakeJsonOutput<IEnumerable<Quest>>(serialiserSettings, questFilePath, writeOptions, null);
-            var questReader = new CollectionReader<Quest>(questInput);
-            var questCreator = new CollectionCreator<Quest>(questInput, questOutput);
-            var questUpdater = new CollectionUpdater<Quest>(questInput, questOutput);
-            var questDeleter = new CollectionDeleter<Quest>(questInput, questOutput);
+            var questReader = new CollectionReader<Quest>(questInput.Get());
+            var questCreator = new CollectionCreator<Quest>();
+            var questDeleter = new CollectionDeleter<Quest>();
 
-            var journalFilePath = Path.Combine(Common.App.Paths.DefaultFolder, Common.Journals.JournalSettings.JournalFile);
-            var journalConverter = new NullConverter<Journal>(new DefaultFactory<Journal>());
-            var journalInput = MakeJsonInput<Journal>(serialiserSettings, journalFilePath, readOptions, journalConverter);
-            var journalOutput = MakeJsonOutput<Journal>(serialiserSettings, journalFilePath, writeOptions, null);
+            var questSelector = new IdentifierSelector<Quest>();
+            var lowerPriorityShifter = new PriorityShifter(1);
+            var higherPriorityShifter = new PriorityShifter(-1);
 
             var readQuestCommand = new ReadQuestCommand(questReader);
-            var createQuestCommand = new CreateQuestCommand(questCreator, questReader, new IdentifierSequencer());
-            var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, new IdentifierSelector<Quest>());
-            var updateQuestCommand = new UpdateQuestCommand(questUpdater, questReader, new IdentifierSelector<Quest>());
-            var completeQuestCommand = new CompleteQuestCommand(questUpdater, questReader, new IdentifierSelector<Quest>(), journalInput, journalOutput);
+            var createQuestCommand = new CreateQuestCommand(questCreator, questReader, questOutput, new IdentifierSequencer(), new PrioritySequencer());
+            var deleteQuestCommand = new DeleteQuestCommand(questDeleter, questReader, questOutput, questSelector, higherPriorityShifter);
+            var updateQuestCommand = new UpdateQuestCommand(questReader, questOutput, questSelector);
+            var orderQuestCommand = new OrderQuestCommand(questReader, questOutput, questSelector, lowerPriorityShifter, higherPriorityShifter);
 
-            Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions, CompleteQuestOptions>(args)
-                .WithParsed<CreateQuestOptions>(createQuestCommand.Run)
+            Parser.Default.ParseArguments<CreateQuestOptions, ReadQuestOptions, UpdateQuestOptions, DeleteQuestOptions, OrderQuestOptions>(args)
                 .WithParsed<ReadQuestOptions>(readQuestCommand.Run)
+                .WithParsed<CreateQuestOptions>(createQuestCommand.Run)
                 .WithParsed<UpdateQuestOptions>(updateQuestCommand.Run)
                 .WithParsed<DeleteQuestOptions>(deleteQuestCommand.Run)
-                .WithParsed<CompleteQuestOptions>(completeQuestCommand.Run)
+                .WithParsed<OrderQuestOptions>(orderQuestCommand.Run)
                 .WithNotParsed(errors => 
                 {
                     foreach (var error in errors)

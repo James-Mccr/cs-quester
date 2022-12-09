@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Moq;
 using Common.Collections.Readers;
-using Common.Io.Inputs;
 using Xunit;
 using static Common.Tests.MockHelpers;
 
@@ -12,20 +10,20 @@ namespace Common.Collections.UnitTests.Readers
         [Fact]
         public void CollectionReaderConstruct()
         {
-            var input = Mock<IInput<ICollection<It.IsAnyType>>>();
-            var reader = new CollectionReader<It.IsAnyType>(input);
-            Assert.Equal(input, reader.Input);
+            var mockCollection = MockCollection();
+            var reader = new CollectionReader<It.IsAnyType>(mockCollection.Object);
+            Assert.Same(mockCollection.Object, reader.Collection);
         }
 
         [Fact]
         public void CollectionReaderRead()
         {
-            var input = new Mock<IInput<ICollection<It.IsAnyType>>>();
-            var reader = new CollectionReader<It.IsAnyType>(input.Object);
+            var mockCollection = MockCollection();
+            var reader = new CollectionReader<It.IsAnyType>(mockCollection.Object);
 
-            reader.Read();
+            var actual = reader.Read();
 
-            input.Verify(m => m.Get(), Times.Once);
+            Assert.Same(mockCollection.Object, actual);
         }
     }
 }
